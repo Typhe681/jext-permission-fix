@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender
 internal class ReloadCommand(val plugin: Jext) : ColosseumCommand(plugin) {
     override val commandData = commandDescriptor("jextreload") {
         subCommandName = "reload"
+		permissions = mutableSetOf("jext.reload")
     }
 
     override fun execute(ctx: CommandContext<CommandSender>) {

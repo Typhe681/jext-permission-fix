@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender
 internal class WebUICommand(val plugin: Jext) : ColosseumCommand(plugin) {
     override val commandData = commandDescriptor("jextwebui") {
         subCommandName = "webui"
+		permissions = mutableSetOf("jext.webui")
 
         optionalArguments.add(ArgumentString(listOf("config", "docs", "discs"), false))
     }

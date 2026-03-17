@@ -8,6 +8,7 @@ import org.bukkit.entity.Player
 internal class JukeboxGuiCommand(val plugin: Jext) : ColosseumCommand(plugin) {
     override val commandData = commandDescriptor("jukeboxgui") {
         subCommandName = "gui"
+		permissions = mutableSetOf("jext.jukeboxgui")
     }
 
     override fun executePlayer(ctx: CommandContext<Player>) {

@@ -1,5 +1,4 @@
 package me.spartacus04.jext.commands
-
 import me.spartacus04.colosseum.commandHandling.argument.arguments.ArgumentInteger
 import me.spartacus04.colosseum.commandHandling.argument.arguments.ArgumentPlayers
 import me.spartacus04.colosseum.commandHandling.command.ColosseumCommand
@@ -11,19 +10,15 @@ import me.spartacus04.jext.commands.customArgs.ArgumentDisc
 import me.spartacus04.jext.discs.Disc
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-
 internal class FragmentGiveCommand(val plugin: Jext) : ColosseumCommand(plugin) {
     override val commandData = commandDescriptor("fragmentgive") {
+        permissions = mutableSetOf("jext.fragment")
         arguments.addAll(listOf(
             ArgumentPlayers(false),
             ArgumentDisc(plugin)
         ))
-
-        optionalArguments.add(
-            ArgumentInteger(listOf(1, 9))
-        )
+        optionalArguments.add(ArgumentInteger(listOf(1, 9)))
     }
-
     override fun execute(ctx: CommandContext<CommandSender>) {
         if(plugin.serverVersion < "1.19") {
             ctx.sender.sendI18nError(plugin, "command-not-supported",
@@ -32,7 +27,6 @@ internal class FragmentGiveCommand(val plugin: Jext) : ColosseumCommand(plugin) 
             )
             return
         }
-
         val players = ctx.getArgument<List<Player>>(0)
         val disc = ctx.getArgument<Disc>(1)
         val amount = if(ctx.size() > 1) {
@@ -40,18 +34,15 @@ internal class FragmentGiveCommand(val plugin: Jext) : ColosseumCommand(plugin) 
         } else {
             1
         }
-
         players.forEach {
             it.inventory.addItem(disc.fragmentItemStack!!.apply {
                 this.amount = amount
             })
-
             it.sendI18nInfo(plugin, "fragment-received",
                 "disc" to disc.displayName,
                 "amount" to amount.toString()
             )
         }
-
         if(players.size > 1) {
             ctx.sender.sendI18nInfo(plugin, "fragment-given-multiple",
                 "disc" to disc.displayName,

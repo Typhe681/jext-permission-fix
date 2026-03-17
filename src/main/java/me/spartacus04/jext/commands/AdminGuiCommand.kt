@@ -8,6 +8,7 @@ import org.bukkit.entity.Player
 internal class AdminGuiCommand(val plugin: Jext) : ColosseumCommand(plugin) {
     override val commandData = commandDescriptor("jextadmingui") {
         subCommandName = "admingui"
+		permissions = mutableSetOf("jext.admingui")
     }
 
     override fun executePlayer(ctx: CommandContext<Player>) {

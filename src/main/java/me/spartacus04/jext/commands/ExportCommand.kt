@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender
 internal class ExportCommand(val plugin: Jext) : ColosseumCommand(plugin) {
     override val commandData = commandDescriptor("jextexport") {
         subCommandName = "export"
+		permissions = mutableSetOf("jext.export")
     }
 
     override fun execute(ctx: CommandContext<CommandSender>) {

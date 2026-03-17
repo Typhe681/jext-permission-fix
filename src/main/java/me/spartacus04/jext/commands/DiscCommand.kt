@@ -11,6 +11,7 @@ import org.bukkit.entity.Player
 internal class DiscCommand(val plugin: Jext) : ColosseumCommand(plugin) {
     override val commandData = commandDescriptor("disc") {
         arguments.add(ArgumentDisc(plugin))
+		permissions = mutableSetOf("jext.disc")
     }
 
     override fun executePlayer(ctx: CommandContext<Player>) {

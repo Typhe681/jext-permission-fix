@@ -15,6 +15,7 @@ import org.bukkit.entity.Player
 internal class PlayMusicCommand(val plugin: Jext) : ColosseumCommand(plugin) {
     override val commandData = commandDescriptor("playmusic") {
         subCommandName = "play"
+		permissions = mutableSetOf("jext.playmusic")
 
         arguments.addAll(listOf(
             ArgumentPlayers(false),
