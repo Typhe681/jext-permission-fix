@@ -8,7 +8,6 @@ import com.sk89q.worldguard.protection.flags.StateFlag
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
 
-
 internal class WorldGuardPermissionIntegration : PermissionIntegration {
     override val id = "worldguard"
 
@@ -21,14 +20,15 @@ internal class WorldGuardPermissionIntegration : PermissionIntegration {
     override fun hasJukeboxGuiAccess(player: Player, block: Block): Boolean = canInteract(player, block, Flags.CHEST_ACCESS, Flags.USE)
 
     private fun canInteract(player: Player, block: Block, vararg flags: StateFlag) : Boolean {
-        val wgPlayer = WorldGuardPlugin.inst().wrapPlayer(player)
-        val wgLocation = BukkitAdapter.adapt(block.location)
-
-        if(WorldGuard.getInstance().platform.sessionManager.hasBypass(wgPlayer, wgPlayer.world)) return true
-
-        val containerQuery = WorldGuard.getInstance().platform.regionContainer.createQuery()
-        return flags.all {
-            containerQuery.testState(wgLocation, wgPlayer, it)
-        }
-    }
+		val wgPlayer = WorldGuardPlugin.inst().wrapPlayer(player)
+		val wgLocation = BukkitAdapter.adapt(block.location)
+		if(WorldGuard.getInstance().platform.sessionManager.hasBypass(wgPlayer, wgPlayer.world)) {
+			return true
+		}
+		val regions = WorldGuard.getInstance().platform.regionContainer.createQuery().getApplicableRegions(wgLocation)
+		return flags.all {
+			val state = regions.queryState(wgPlayer, it)
+			state != StateFlag.State.DENY
+		}
+	}
 }
